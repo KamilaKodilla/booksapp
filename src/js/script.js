@@ -1,23 +1,23 @@
 {
   'use strict';
 
-  /*referencja do szablonu template oraz books-list*/
   const select = {
     templateOf: {
       bookTemplate: '#template-book',
     },
     containerOf: {
       booksList: '.books-list',
-      // ex 5 form: '.filters',
+      filters: '.filters',
     },
-      booksCover: {
-        images: '.books-list .book_image',
+    booksCover: {
+      images: '.books-list .book_image',
     }
- };
+  };
 
   const classNames = {
     books: {
       favoriteBook: 'favorite .books-list',
+      hidden: 'hidden',
     }
   };
 
@@ -25,7 +25,6 @@
     bookTemplate: Handlebars.compile(document.querySelector(select.templateOf.bookTemplate).innerHTML),
   };
 
-  /* funkcja render*/
   function renderInBooks() {
 
     /*pętla po każdym elemencie - książce z dataSource.books*/
@@ -37,6 +36,9 @@
       /*find booksList container i dołącz jako nowe dziecko DOM do listy .books-list*/
       const booksListContainer = document.querySelector(select.containerOf.booksList);
       booksListContainer.appendChild(element);
+
+      //const ratingBgc = determineRattingBgc(rating);
+      //const ratingWidth = rating * 10;
     }
   }
   renderInBooks();
@@ -44,62 +46,89 @@
 
   const favoriteBooks = [];
 
-  console.log(favoriteBooks);
-
   function initActions() {
     /*referencja do wszystkich elementów .book_image w liście .booksList*/
     const booksContainer = document.querySelector(select.containerOf.booksList);
     const booksImage = booksContainer.querySelectorAll('.book__image');
 
-    //const booksImage = document.querySelectorAll(select.booksCover.images);
-    console.log(booksImage);
     /*pętla po każdym elemencie booksImage*/
     for (let image of booksImage) {
       /*nasłuchiwacz uruchamiający funkcję dblclick i zatrzymujący domyślne zachowanie przeglądarki*/
-      image.addEventListener('dblclick', function (event) {
+      image.addEventListener('click', function (event) {
         event.preventDefault();
-        /*dodanie do klikniętego elementu klasy favorite*/
-        image.classList.add('favorite');
-        /*pobranie z jego data-id identyfikatora - id książki*/
         const idBook = image.getAttribute('data-id');
-        /*dodanie identyfikatora do tablicy favoriteBooks*/
-        favoriteBooks.push(idBook);
+        console.log(idBook);
+        if (!favoriteBooks.includes(idBook)) {
+          console.log("blad");
+          image.classList.add('favorite');
+          favoriteBooks.push(idBook);
+        } else {
+          image.classList.remove('favorite');
+          favoriteBooks.splice(favoriteBooks.indexOf(idBook), 1);
+        }
       });
     }
+/*
+    const filters = [];
+
+    const booksFiltered = document.querySelector(select.containerOf.form);
+    console.log(booksFiltered);
+    booksFiltered.addEventListener('click', function (event) {
+      event.preventDefault();
+      const clickedBook = event.target;
+      if (clickedBook.type === 'checkbox') {
+        if (clikedBook.checked) {
+          filters.push(clikedBook.value);
+        } else {
+          filters.splice(filters.indexOf(clickedBook.value), 1)
+        }
+      }
+      filterBooks();
+    });*/
   }
   initActions();
-}
 
 /*
-ex 4
-      const image = event.target.offsetParent;
-      const idBook = image.getAttribute('data-id');
-
-ex 3
-if (!image.classList.contains('favorite')) {
-  image.classList.add(classNames.books.favoriteBook);
-  const idBook = image.getAttribute('data-id');
-  favoriteBooks.push(idBook);
-} else {
-  favoriteBooks.splice(favoriteBooks.indexOf(idBook), 1);
-      image.classList.remove(classNames.books.favoriteBook);
-}
-
-ex 5
-const filters = [];
-
-w initActions:
-const booksFiltered = document.querySelectorAll(select.containerOf.form);
-booksFiltered.addEventListener('click', function (event)){
-  event.preventDefault();
-const clickedBook = event.target;
-if(clickedBook.type === 'checkbox'){
-  if(clikedBook.checked){
-    filters.push(clikedBook.value);
-  }else {
-
+  // ex 5
+  function filterBooks() {
+    for (let book of dataSource.books) {
+      let shouldBeHidden = false;
+      for (const filter of filters) {
+        if (!book.details[filter]) {
+          shouldBeHidden = true;
+          break;
+        }
+      }
+      if (shouldBeHidden = true) {
+        const image = document.querySelector('.book_image[data-id="' + book.id + '"]');
+        image.classList.add('hidden');
+      } else {
+        const image = document.querySelector('.book_image[data-id="' + book.id + '"]');
+        image.classList.remove('hidden');
+      }
+    }
   }
 
+  //6
+  function determineRattingBgc(rating) {
+    const background = '';
+    if (rating < 6) {
+      background = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%)';
+    }
+    if (rating > 6 && rating <= 8) {
+      background = 'linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%)';
+    }
+    if (rating > 8 && rating <= 9) {
+      background = 'linear-gradient(to bottom, #299a0b 0%, #299a0b 100%)';
+    }
+    if (rating > 9) {
+      background = 'linear-gradient(to bottom, #ff0084 0%,#ff0084 100%)';
+    }
+    return background;
+  }
+*/
 }
-}
+/*
+ ex 4
+  const image = event.target.offsetParent;
 */
