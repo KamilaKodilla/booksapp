@@ -29,8 +29,8 @@
 
     /*pętla po każdym elemencie - książce z dataSource.books*/
     for (let book of dataSource.books) {
-      book.ratingBgc = determineRattingBgc(book.rating);
-      book.ratingWidth = book.rating * 10;
+      //book.ratingBgc = determineRattingBgc(book.rating);
+      //book.ratingWidth = book.rating * 10;
 
       /*generate HTML na podstawie szablonu oraz danych o konkretnej książce*/
       const generatedHTML = templates.bookTemplate(book);
@@ -71,7 +71,6 @@
     booksFiltered.addEventListener('change', function (event) {
       event.preventDefault();
       const clickedForm = event.target;
-      console.log(clickedForm);
       if (clickedForm.type === 'checkbox' && clickedForm.tagName === 'INPUT' && clickedForm.name === 'filter') {
         if (clickedForm.checked == true) {
           filters.push(clickedForm.value);
@@ -98,16 +97,15 @@
         }
       }
       if (shouldBeHidden) {
-        const bookCover = document.querySelector('.book_image[data-id="' + book.id + '"]');
+        const bookCover = document.querySelector('.book__image[data-id="' + book.id + '"]');
         bookCover.classList.add('hidden');
       } else {
-        const bookCover = document.querySelector('.book_image[data-id="' + book.id + '"]');
+        const bookCover = document.querySelector('.book__image[data-id="' + book.id + '"]');
         bookCover.classList.remove('hidden');
       }
     }
   };
-
-
+/*
   function determineRattingBgc(rating) {
     let background = '';
     if (rating < 6) {
@@ -121,5 +119,5 @@
     }
     return background;
   }
-
+*/
 }
