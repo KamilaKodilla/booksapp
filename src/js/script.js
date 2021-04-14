@@ -14,12 +14,12 @@
     }
   };
 
-  const classNames = {
-    books: {
-      favoriteBook: 'favorite .books-list',
-      hidden: 'hidden',
-    }
-  };
+  //const classNames = {
+  //books: {
+  //favoriteBook: 'favorite',
+  //hidden: 'hidden',
+  //}
+  //};
 
   const templates = {
     bookTemplate: Handlebars.compile(document.querySelector(select.templateOf.bookTemplate).innerHTML),
@@ -144,7 +144,7 @@
     for (let book of dataSource.books) {
       /*generate HTML na podstawie szablonu oraz danych o konkretnej książce*/
       const ratingBgc = determineRattingBgc(book.rating);
-      const ratingWidth = book.ratingBgc * 10;
+      const ratingWidth = book.rating * 10;
       const generatedHTML = templates.bookTemplate({
         id: book.id,
         name: book.name,
@@ -195,7 +195,7 @@
         if (clickedForm.checked == true) {
           filters.push(clickedForm.value);
         } else {
-          filters.splice(filters.indexOf(clickedForm.value), 1)
+          filters.splice(filters.indexOf(clickedForm.value), 1);
         }
       }
       filterBooks();
@@ -224,7 +224,7 @@
         bookCover.classList.remove('hidden');
       }
     }
-  };
+  }
 
   function determineRattingBgc(rating) {
     let background = '';
