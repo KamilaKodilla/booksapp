@@ -143,7 +143,7 @@
     /*pętla po każdym elemencie - książce z dataSource.books*/
     for (let book of dataSource.books) {
       /*generate HTML na podstawie szablonu oraz danych o konkretnej książce*/
-      const ratingBgc = determineRatingBgc(book.rating);
+      const ratingBgc = determineRattingBgc(book.rating);
       const ratingWidth = book.ratingBgc * 10;
       const generatedHTML = templates.bookTemplate({
         id: book.id,
